@@ -28,16 +28,6 @@ app.use("/", homeRouter);
 app.use("/api/users", userRouter);
 //--------------------------------------------------------
 
-app.get("/", (req, res) => {
-  try {
-    res.status(200).send({
-      message: "Welcome Home",
-    });
-  } catch (e) {
-    log(e, true);
-  }
-});
-
 //Client Error handling
 app.use((req, res, next) => {
   next(creatError(404, "route not found"));
