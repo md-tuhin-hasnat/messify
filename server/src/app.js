@@ -5,6 +5,7 @@ const xssClean = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 const userRouter = require("./routes/userRouter");
 const homeRouter = require("./routes/homeRouter");
+const { seedRouter } = require("./routes/seedRouter");
 
 const log = require("./log/timelog");
 
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 // ------------------Routes-------------------------------
 app.use("/", homeRouter);
 app.use("/api/users", userRouter);
+app.use("/api/seed", seedRouter);
 //--------------------------------------------------------
 
 //Client Error handling
