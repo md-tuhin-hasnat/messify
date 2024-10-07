@@ -3,11 +3,13 @@ const morgan = require("morgan");
 const creatError = require("http-errors");
 const xssClean = require("xss-clean");
 const rateLimit = require("express-rate-limit");
-const userRouter = require("./routes/userRouter");
-const homeRouter = require("./routes/homeRouter");
-const { seedRouter } = require("./routes/seedRouter");
+const userRouter = require("./routes/user.route");
+const homeRouter = require("./routes/home.route");
+const { seedRouter } = require("./routes/seed.route");
+const cors = require("cors");
 
 const log = require("./log/timelog");
+const authRouter = require("./routes/auth.route");
 
 const app = express();
 const rateLimiter = rateLimit({
@@ -17,6 +19,11 @@ const rateLimiter = rateLimit({
 });
 
 // ------------------MeddleWares--------------------------
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(xssClean());
 app.use(rateLimiter);
@@ -27,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 // ------------------Routes-------------------------------
 app.use("/", homeRouter);
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/seed", seedRouter);
 //--------------------------------------------------------
 
