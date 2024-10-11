@@ -10,6 +10,7 @@ import { useState } from "react";
 import { z } from "zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -44,7 +45,11 @@ export default function LogIn({ setActiveTab }) {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Oh no! Login was not Successful",
+        description: error.response.data.message,
+      });
     }
   };
 

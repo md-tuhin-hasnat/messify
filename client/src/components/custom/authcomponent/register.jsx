@@ -8,8 +8,9 @@ import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { z } from "zod";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
 
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -20,9 +21,11 @@ const authSchema = z.object({
     .string()
     .min(3, { message: "Name must be at least 3 characters long" }),
 });
+
 export default function Register({ setActiveTab }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   const {
     register: registerAuth,
     handleSubmit: handleSubmitAuth,
@@ -33,7 +36,6 @@ export default function Register({ setActiveTab }) {
 
   const onSubmitAuth = async (data) => {
     setIsLoading(true);
-    //TODO Here i would typically send the data to your authentication API
     try {
       const { name, email, password } = data;
       const response = await axios.post(
@@ -44,10 +46,15 @@ export default function Register({ setActiveTab }) {
       if (response.status === 201) {
         setIsLoading(false);
         router.push("/auth");
+        setActiveTab("login");
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Oh no! something is not right",
+        description: error.response.data.message,
+      });
     }
   };
 
@@ -104,7 +111,7 @@ export default function Register({ setActiveTab }) {
         className="w-full mt-2"
         onClick={() => setActiveTab("login")}
       >
-        Allready have an account?
+        Already have an account?
       </Button>
     </TabsContent>
   );

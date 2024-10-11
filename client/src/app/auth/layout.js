@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import { Poppins } from "next/font/google";
 import { ThemeProviders } from "@/app/providers";
 import Header from "@/components/custom/header/Header";
+import { Toaster } from "@/components/ui/toaster";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["500", "900"],
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
           <main className="flex">
             <section>{children}</section>
           </main>
+          <Toaster />
         </ThemeProviders>
       </body>
     </html>

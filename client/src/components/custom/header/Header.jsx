@@ -1,4 +1,4 @@
-import ThemeSwitch from "../themeswitcher/themeSwitch";
+import ThemeSwitch from "./themeswitcher/themeSwitch";
 import { Separator } from "@/components/ui/separator";
 import ProfileButton from "./profileButton";
 export default function Header() {
