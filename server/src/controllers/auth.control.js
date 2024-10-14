@@ -1,9 +1,7 @@
 require("dotenv").config();
 const createError = require("http-errors");
 const { user } = require("../models/users.model");
-const bcrypt = require("bcryptjs/dist/bcrypt");
-const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../secrets");
+const passport = require("passport");
 
 const regControl = async (req, res, next) => {
   try {
@@ -37,53 +35,36 @@ const regControl = async (req, res, next) => {
 
 const loginControl = async (req, res, next) => {
   try {
-    const _user = await user.findOne({ email: req.body.email });
-    if (!_user) {
-      next(createError(401, "User not found"));
-    } else if (!bcrypt.compareSync(req.body.password, _user.password)) {
-      next(createError(402, "Password did not match"));
-    } else {
-      const token = jwt.sign({ user_id: _user._id }, jwtSecret, {
-        expiresIn: "7d",
-      });
-
-      // res.cookie("jwt", token, {
-      //   httpOnly: true,
-      //   secure: true,
-      //   sameSite: "None",
-      //   maxAge: 7 * 24 * 60 * 60 * 1000,
-      // });
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        sameSite: true,
-        signed: true,
-        // secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-      return res.status(200).json({
-        success: true,
-        message: "Login successful",
-      });
-    }
+    res.status(200).send({
+      success:true,
+      message:"login successfull"
+    })
   } catch (error) {
-    next(createError(400, "server Error"));
+    next(error);
   }
 };
 const logoutControl = async (req, res, next) => {
   try {
-    res.clearCookie("jwt", { path: "/" });
-    res.status(200).json({
-      success: true,
-      message: "Logged out",
+    req.logout((err) => {
+      if (err) {
+        return next(createError(500,err.message));
+      }
+      res.clearCookie('connect.sid', { path: '/', httpOnly: true, secure: true });
+      res.status(200).json({ success: true, message: "Logged out successfully" });
     });
   } catch (error) {
     next(error);
   }
 };
+
 const protectedControl = async (req, res, next) => {
   try {
-    res.status(200).json({ success: true });
+    if(req.isAuthenticated()){
+      res.status(200).send({success:true});
+    }
+    else res.status(401).send({success:false});
   } catch (error) {
+    res.status(401).send({success:false});
     next(error);
   }
 };

@@ -21,9 +21,11 @@ const userSchema = new Schema(
         message: "Invalid email address format",
       },
     },
+    googleID: {
+      type: String,
+    },
     password: {
       type: String,
-      required: [true, "Password is required!"],
       minlength: [8, "Password must be at least 8 characters long!"],
       set: (value) => {
         return bcrypt.hashSync(value, bcrypt.genSaltSync(10));
@@ -32,6 +34,10 @@ const userSchema = new Schema(
     image: {
       type: String,
       default: "../../public/images/users/22549350534.png",
+    },
+    oauth: {
+      type: Boolean,
+      default:false,
     },
   },
   {

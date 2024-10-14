@@ -45,6 +45,7 @@ export default function LogIn({ setActiveTab }) {
       }
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Oh no! Login was not Successful",

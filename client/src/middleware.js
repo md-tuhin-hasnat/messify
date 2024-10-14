@@ -1,40 +1,45 @@
-import { NextResponse } from "next/server";
-import axios from "axios";
-export async function middleware(req) {
-  const token = req.cookies.get("jwt");
-  const { pathname } = req.nextUrl;
-  // console.log(token);
-  if (
-    pathname.startsWith("/_next/") ||
-    pathname.startsWith("/static/") ||
-    pathname.startsWith("/auth")
-  ) {
-    return NextResponse.next();
-  }
+import { NextResponse } from 'next/server';
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/auth", req.url));
+const AUTH_ROUTE = '/auth';
+const BACKEND_URL = 'http://localhost:3001/api/auth/protected';
+const SESSION_COOKIE = 'connect.sid';
+
+export async function middleware(reqest) {
+  const { pathname } = reqest.nextUrl;
+  const url = reqest.url;
+  const sessionCookie = reqest.cookies.get(SESSION_COOKIE)?.value;
+
+  if (!sessionCookie) {
+    if(pathname === "/auth"){
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL(AUTH_ROUTE,url));
   }
 
   try {
-    const res = await axios.get(`http://localhost:3001/api/auth/protected`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-      withCredentials: true,
-      validateStatus: (status) => status < 400,
+    const response = await fetch(BACKEND_URL, {
+      method: 'GET',
+      headers: { Cookie: `${SESSION_COOKIE}=${sessionCookie}` },
+      credentials: 'include',
     });
-
-    if (res.status !== 200) {
-      console.log(res.message);
-      return NextResponse.redirect(new URL("/auth", req.url));
+    if (response.status !== 200) {
+      if(pathname === "/auth"){
+        return NextResponse.next();
+      }
+      return NextResponse.redirect(new URL(AUTH_ROUTE,url));
     }
+
+    if (pathname === AUTH_ROUTE) {
+      return NextResponse.redirect(new URL("/",url));
+    }
+
+    return NextResponse.next();
   } catch (error) {
-    console.error("Error verifying token:", error.message);
-    return NextResponse.redirect(new URL("/auth", req.url));
+    console.error('Middleware error:', error);
+    return NextResponse.redirect(new URL(AUTH_ROUTE,url));
   }
-  return NextResponse.next();
 }
+
 export const config = {
-  matcher: ["/((?!/_next/|/static/|/auth).*)"],
+  matcher: ['/((?!_next|public|logout|favicon\\.ico|robots\\.txt|api).*)'],
 };

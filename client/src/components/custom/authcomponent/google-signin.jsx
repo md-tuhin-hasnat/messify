@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import { FaGoogle } from "react-icons/fa6";
 export default function GoogleSignIn() {
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     //TODO Implement Google Sign-In logic here
-    console.log("Google Sign-In clicked");
+    window.location.href = 'http://localhost:3001/api/auth/google';
+    // console.log("Google Sign-In clicked");
   };
 
   return (

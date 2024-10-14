@@ -1,18 +1,20 @@
-const { user } = require("../models/users.model");
 
-const getUsers = (req, res, next) => {
+const getUser = async (req, res, next) => {
   try {
-    user.find({}).then((users) => {
-      res.status(200).json({
-        message: "users are retuned",
-        users,
+    if(req.isAuthenticated()){
+      const {name, image} = req.user;
+      res.status(200).send({
+        success:true,
+        user: {name, image},
       });
-    });
+    }
+    else res.status(401).send({success:false, message:"Not Authorized"});
   } catch (error) {
     next(error);
   }
 };
 
+
 module.exports = {
-  getUsers,
+  getUser,
 };

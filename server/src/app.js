@@ -7,11 +7,13 @@ const userRouter = require("./routes/user.routes");
 const homeRouter = require("./routes/home.routes");
 const { seedRouter } = require("./routes/seed.routes");
 const authRouter = require("./routes/auth.routes");
+const passport = require('passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
-
+require('./config/passport')
 const log = require("./log/timelog");
-const { jwtSecret } = require("./secrets");
+const {dbUrl } = require("./secrets");
 
 const app = express();
 const rateLimiter = rateLimit({
@@ -27,18 +29,30 @@ const corsOptions = {
 };
 
 // ------------------MeddleWares--------------------------
+app.set('trust proxy', 1)
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: dbUrl,
+    collectionName: "sessions"
+  })
+  // cookie: { secure: true }
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(xssClean());
 app.use(rateLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(jwtSecret));
 //--------------------------------------------------------
 
 // ------------------Routes-------------------------------
 app.use("/", homeRouter);
-app.use("/api/users", userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/seed", seedRouter);
 //--------------------------------------------------------
