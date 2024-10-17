@@ -38,19 +38,9 @@ export default function AuthPageComponent() {
               <TabsTrigger value="register">Register</TabsTrigger>
               <TabsTrigger value="forgot-password">Reset</TabsTrigger>
             </TabsList>
-            <LogIn
-              // isLoading={isLoading}
-              // setIsLoading={setIsLoading}
-              setActiveTab={setActiveTab}
-            />
-            <Register
-              // isLoading={isLoading}
-              // setIsLoading={setIsLoading}
-              setActiveTab={setActiveTab}
-            />
-            <ResetPassword
-            // isLoading={isLoading} setIsLoading={setIsLoading}
-            />
+            <LogIn setActiveTab={setActiveTab} />
+            <Register setActiveTab={setActiveTab} />
+            <ResetPassword />
           </Tabs>
         </CardContent>
         <CardFooter>

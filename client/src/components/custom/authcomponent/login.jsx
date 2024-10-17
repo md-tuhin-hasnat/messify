@@ -45,11 +45,14 @@ export default function LogIn({ setActiveTab }) {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      var err;
+      if (error?.response) {
+        err = error.response.data.message;
+      } else err = "Server Error";
       toast({
         variant: "destructive",
         title: "Oh no! Login was not Successful",
-        description: error.response.data.message,
+        description: err,
       });
     }
   };

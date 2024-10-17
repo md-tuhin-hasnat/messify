@@ -1,6 +1,8 @@
 "use client";
 
-import * as React from "react";
+// import * as React from "react";
+import { useEffect, useState } from "react";
+
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
@@ -18,8 +20,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { backendURL } from "@/lib/secret";
 
-const messList = [
+var messList = [
   {
     value: "brotherzone",
     label: "Brother Zone",
@@ -31,9 +34,26 @@ const messList = [
 ];
 
 export default function SelectMess() {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch(`${backendURL}/api/mess/get`, {
+    //       credentials: "include",
+    //     });
+    //     if (response.ok) {
+    //       const messdata = await response.json();
+    //       //TODO: Mess data adding using setstate
+    //     } else {
+    //       console.error("Error fetching user data:", response.statusText);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching mess data:", error);
+    //   }
+    // };
+    // fetchData();
+  }, [""]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

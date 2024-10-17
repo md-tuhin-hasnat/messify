@@ -7,13 +7,14 @@ const userRouter = require("./routes/user.routes");
 const homeRouter = require("./routes/home.routes");
 const { seedRouter } = require("./routes/seed.routes");
 const authRouter = require("./routes/auth.routes");
-const passport = require('passport');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const passport = require("passport");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const cors = require("cors");
-require('./config/passport')
+require("./config/passport");
 const log = require("./log/timelog");
-const {dbUrl } = require("./secrets");
+const { dbUrl } = require("./secrets");
+const messRouter = require("./routes/mess.routes");
 
 const app = express();
 const rateLimiter = rateLimit({
@@ -29,17 +30,23 @@ const corsOptions = {
 };
 
 // ------------------MeddleWares--------------------------
-app.set('trust proxy', 1)
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: dbUrl,
-    collectionName: "sessions"
+app.set("trust proxy", 1);
+app.use(
+  session({
+    secret: "oedtgufr0934",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: dbUrl,
+      collectionName: "sessions",
+      ttl: 2 * 24 * 60 * 60 + 60 * 60,
+    }),
+    cookie: {
+      // secure: true,
+      maxAge: 2 * 24 * 60 * 60 * 1000,
+    },
   })
-  // cookie: { secure: true }
-}))
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors(corsOptions));
@@ -54,6 +61,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/mess", messRouter);
 app.use("/api/seed", seedRouter);
 //--------------------------------------------------------
 

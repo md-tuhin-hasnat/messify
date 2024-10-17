@@ -1,32 +1,29 @@
-const passport = require('passport');
-const { user } = require('../models/users.model');
-const bcrypt = require('bcryptjs');
-const { googleId, googleSecret } = require('../secrets');
-const createHttpError = require('http-errors');
-const LocalStrategy = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const passport = require("passport");
+const { user } = require("../models/users.model");
+const bcrypt = require("bcryptjs");
+const { googleId, googleSecret } = require("../secrets");
+const createHttpError = require("http-errors");
+const LocalStrategy = require("passport-local").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
-      passwordField: 'password',
+      usernameField: "email",
+      passwordField: "password",
     },
     async (email, password, done) => {
       try {
         const _user = await user.findOne({ email });
         if (!_user) {
-          return done(createHttpError(401,"Incorrect Username"));
-          // return done(null, false, { message: 'Incorrect Username' });
+          return done(createHttpError(401, "Incorrect Username"));
         }
         const userPassword = _user?.password || "_";
         const isMatch = await bcrypt.compare(password, userPassword);
         if (!isMatch && userPassword !== "_") {
-          return done(createHttpError(402,"Incorrect Password"));
-          // return done(null, false, { message: 'Incorrect Password' });
-        }
-        else if(!isMatch){
-          return done(createHttpError(403,"Log in using Google ID"));
+          return done(createHttpError(402, "Incorrect Password"));
+        } else if (!isMatch) {
+          return done(createHttpError(403, "Log in using Google ID"));
         }
 
         return done(null, _user);
@@ -42,7 +39,7 @@ passport.use(
     {
       clientID: googleId,
       clientSecret: googleSecret,
-      callbackURL: '/api/auth/google/redirect',
+      callbackURL: "/api/auth/google/redirect",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -54,12 +51,11 @@ passport.use(
             googleID: profile.id,
             email: profile.emails[0].value,
             image: profile.photos?.[0]?.value,
-            oauth:true,
+            oauth: true,
           });
           await newUser.save();
           return done(null, newUser);
-        }
-        else if(!_user.oauth){
+        } else if (!_user.oauth) {
           await _user.updateOne({
             oauth: true,
             googleID: profile.id,

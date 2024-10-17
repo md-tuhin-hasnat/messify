@@ -50,10 +50,14 @@ export default function Register({ setActiveTab }) {
       }
     } catch (error) {
       setIsLoading(false);
+      var err;
+      if (error?.response) {
+        err = error.response.data.message;
+      } else err = "Server Error";
       toast({
         variant: "destructive",
         title: "Oh no! something is not right",
-        description: error.response.data.message,
+        description: err,
       });
     }
   };
