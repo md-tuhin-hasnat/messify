@@ -12,27 +12,33 @@ export default function ThemeIcon() {
 
   if (!mounted)
     return (
-      <FaSun
+      <div
         onClick={() => setTheme("light")}
-        className="hover:cursor-pointer mx-0 my-auto"
-      />
+        className="border-border rounded border py-1 px-2 hover:bg-accent hover:cursor-pointer "
+      >
+        <FaSun className="mx-0 my-auto " />
+      </div>
     );
 
   if (resolvedTheme === "dark") {
     return (
-      <FaSun
+      <div
         onClick={() => setTheme("light")}
-        className="hover:cursor-pointer mx-0 my-auto"
-      />
+        className="border-border rounded border py-1 px-2 hover:bg-accent hover:cursor-pointer "
+      >
+        <FaSun className="mx-0 my-auto" />
+      </div>
     );
   }
 
   if (resolvedTheme === "light") {
     return (
-      <FaMoon
+      <div
         onClick={() => setTheme("dark")}
-        className="hover:cursor-pointer  mx-0 my-auto"
-      />
+        className="border-border rounded border py-1 px-2 hover:bg-accent hover:cursor-pointer "
+      >
+        <FaMoon className="mx-0 my-auto" />
+      </div>
     );
   }
 }

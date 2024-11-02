@@ -15,7 +15,6 @@ import ResetPassword from "./reset-password";
 import GoogleSignIn from "./google-signin";
 
 export default function AuthPageComponent() {
-  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
 
   return (

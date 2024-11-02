@@ -15,11 +15,6 @@ export default function AddButtonComponent() {
     console.log("Join a mess clicked");
   };
 
-  const handleCreateMess = () => {
-    // Implement create mess functionality
-    console.log("Create mess clicked");
-  };
-
   return (
     <Popover>
       <PopoverTrigger asChild>

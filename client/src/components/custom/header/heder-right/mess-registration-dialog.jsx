@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,57 +22,76 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { backendURL } from "@/lib/secret";
 import { toast } from "@/hooks/use-toast";
-
-const sanitizeInput = (input) => {
-  return input.replace(/[&<>"']/g, (match) => {
-    const escapeChars = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#x27;",
-    };
-    return escapeChars[match];
-  });
-};
-
-const postData = async ({ messName, memberCount }) => {
-  try {
-    const response = await axios.post(
-      `${backendURL}/api/mess/create`,
-      { name: messName, messType: memberCount },
-      { withCredentials: true }
-    );
-
-    if (response.status === 201) {
-      toast({
-        title: "Mess Created Successfully",
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Oh No! Something is not right",
-        description: response.statusText,
-      });
-    }
-  } catch (error) {
-    var err;
-    if (error?.response) {
-      err = error.response.data.message;
-    } else err = "Server Error";
-    toast({
-      variant: "destructive",
-      title: "Oh no! Login was not Successful",
-      description: err,
-    });
-  }
-};
+import { AllMessContext } from "@/app/providers";
+import getMesses from "@/app/actions/get_messes.action";
 
 export default function MessRegistrationDialogComponent() {
   const [open, setOpen] = useState(false);
   const [messName, setMessName] = useState("");
   const [memberCount, setMemberCount] = useState("");
+  const { setMessList } = useContext(AllMessContext);
   const router = useRouter();
+  const sanitizeInput = (input) => {
+    return input.replace(/[&<>"']/g, (match) => {
+      const escapeChars = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#x27;",
+      };
+      return escapeChars[match];
+    });
+  };
+
+  const postData = async ({ messName, memberCount }) => {
+    try {
+      const response = await axios.post(
+        `${backendURL}/api/mess/create`,
+        { name: messName, messType: memberCount },
+        { withCredentials: true }
+      );
+      if (response.status === 201) {
+        toast({
+          title: "Mess Created Successfully",
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Oh No! Something is not right",
+          description: response.statusText,
+        });
+      }
+    } catch (error) {
+      var err;
+      if (error?.response) {
+        err = error.response.data.message;
+      } else err = "Server Error";
+      toast({
+        variant: "destructive",
+        title: "Oh no! Login was not Successful",
+        description: err,
+      });
+    }
+  };
+  const getData = async () => {
+    getMesses()
+      .then((messes) => {
+        setMessList([]);
+        messes.allMessOfUser.map((mess) => {
+          const newMess = {
+            label: mess.name,
+            value: mess.code,
+          };
+          setMessList((prev) => {
+            return [...prev, newMess];
+          });
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,9 +106,12 @@ export default function MessRegistrationDialogComponent() {
       return;
     }
 
-    await postData({ messName, memberCount }).then(() => {
-      router.push("/");
-    });
+    await postData({ messName: sanitizedMessName, memberCount }).then(
+      async () => {
+        await getData();
+        router.push("/");
+      }
+    );
 
     setOpen(false);
 

@@ -1,11 +1,12 @@
 "use server";
+import { backendURL } from "@/lib/secret";
 import axios from "axios";
 
 export default async function regSubmit(data) {
   try {
     const { name, email, password } = data;
     const response = await axios.post(
-      "http://localhost:3001/api/auth/register",
+      `${backendURL}/api/auth/register`,
       { name, email, password },
       { withCredentials: true }
     );

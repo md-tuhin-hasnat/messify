@@ -11,6 +11,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
+import { backendURL } from "@/lib/secret";
 
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -39,7 +40,7 @@ export default function Register({ setActiveTab }) {
     try {
       const { name, email, password } = data;
       const response = await axios.post(
-        "http://localhost:3001/api/auth/register",
+        `${backendURL}/api/auth/register`,
         { name, email, password },
         { withCredentials: true }
       );
@@ -49,6 +50,7 @@ export default function Register({ setActiveTab }) {
         setActiveTab("login");
       }
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
       var err;
       if (error?.response) {

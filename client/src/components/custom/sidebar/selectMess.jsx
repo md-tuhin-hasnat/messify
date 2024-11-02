@@ -1,7 +1,7 @@
 "use client";
 
 // import * as React from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
@@ -20,40 +20,35 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { backendURL } from "@/lib/secret";
-
-var messList = [
-  {
-    value: "brotherzone",
-    label: "Brother Zone",
-  },
-  {
-    value: "bubtian",
-    label: "BUBT-ian",
-  },
-];
-
+import { AllMessContext, MessContext, RenderContext } from "@/app/providers";
+import getMesses from "@/app/actions/get_messes.action";
 export default function SelectMess() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const { setMessValue } = useContext(MessContext);
+  const { setMessList, messList } = useContext(AllMessContext);
+  const { setIsRendered, isRendered } = useContext(RenderContext);
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await fetch(`${backendURL}/api/mess/get`, {
-    //       credentials: "include",
-    //     });
-    //     if (response.ok) {
-    //       const messdata = await response.json();
-    //       //TODO: Mess data adding using setstate
-    //     } else {
-    //       console.error("Error fetching user data:", response.statusText);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching mess data:", error);
-    //   }
-    // };
-    // fetchData();
-  }, [""]);
+    if (!isRendered) {
+      getMesses()
+        .then((messes) => {
+          setMessList([]);
+          messes.allMessOfUser.map((mess) => {
+            const newMess = {
+              label: mess.name,
+              value: mess.code,
+            };
+            setMessList((prev) => {
+              return [...prev, newMess];
+            });
+          });
+          setIsRendered(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -81,6 +76,7 @@ export default function SelectMess() {
                   value={mess.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
+                    setMessValue(mess.value);
                     setOpen(false);
                   }}
                 >

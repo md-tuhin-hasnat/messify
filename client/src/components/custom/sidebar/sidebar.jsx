@@ -1,8 +1,11 @@
+"use client";
 import { Separator } from "@/components/ui/separator";
-import NavLinks from "./navLinks/navLinks";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import SelectMess from "./selectMess";
+import NavLinks from "./navLinks/navLinks";
+import MobileNavLinks from "./mobile-navLinks/mobile-navLinks";
 
-export default function Sidebar() {
+const desktopSidebar = () => {
   return (
     <nav className="h-navh flex flex-row">
       <section>
@@ -14,4 +17,23 @@ export default function Sidebar() {
       <Separator orientation="vertical" />
     </nav>
   );
+};
+const mobileSidebar = () => {
+  return (
+    <nav className="flex flex-col">
+      <Separator orientation="horizontal" />
+      <section>
+        <MobileNavLinks />
+      </section>
+    </nav>
+  );
+};
+
+export default function Sidebar() {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  if (isDesktop) {
+    return desktopSidebar();
+  } else {
+    return mobileSidebar();
+  }
 }

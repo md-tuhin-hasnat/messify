@@ -11,6 +11,7 @@ import { z } from "zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { backendURL } from "@/lib/secret";
 
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -35,7 +36,7 @@ export default function LogIn({ setActiveTab }) {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        `${backendURL}/api/auth/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -45,10 +46,12 @@ export default function LogIn({ setActiveTab }) {
       }
     } catch (error) {
       setIsLoading(false);
+
       var err;
       if (error?.response) {
         err = error.response.data.message;
       } else err = "Server Error";
+
       toast({
         variant: "destructive",
         title: "Oh no! Login was not Successful",
