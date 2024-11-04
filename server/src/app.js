@@ -15,7 +15,7 @@ require("./config/passport");
 const log = require("./log/timelog");
 const { dbUrl } = require("./secrets");
 const messRouter = require("./routes/mess.routes");
-
+const serverless = require("serverless-http");
 const app = express();
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -79,3 +79,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);

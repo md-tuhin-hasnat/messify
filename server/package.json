@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon /src/server.js",
-    "start": "node /src/server.js"
+    "start": "node ./src/server.js"
   },
   "author": "Md Tuhin Hasnat",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
+    "serverless-http": "^3.2.0",
     "xss": "^1.0.15",
     "xss-clean": "^0.1.4"
   },
