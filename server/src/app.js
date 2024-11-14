@@ -16,6 +16,8 @@ const log = require("./log/timelog");
 const { dbUrl } = require("./secrets");
 const messRouter = require("./routes/mess.routes");
 const serverless = require("serverless-http");
+const expenseRouter = require("./routes/expenses.routes");
+const productRouter = require("./routes/products.routes");
 const app = express();
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -62,6 +64,7 @@ app.use("/", homeRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/mess", messRouter);
+app.use("/api/expense", expenseRouter);
 app.use("/api/seed", seedRouter);
 //--------------------------------------------------------
 

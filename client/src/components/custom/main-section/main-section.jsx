@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Sidebar from "../sidebar/sidebar";
 import Loading from "../loader/loading";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const MainChild = dynamic(() => import("./mainChild"), {
   loading: () => <Loading />,

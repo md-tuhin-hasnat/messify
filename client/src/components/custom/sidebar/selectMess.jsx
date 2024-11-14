@@ -25,7 +25,7 @@ import getMesses from "@/app/actions/get_messes.action";
 export default function SelectMess() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const { setMessValue } = useContext(MessContext);
+  const { setMessValue, messValue } = useContext(MessContext);
   const { setMessList, messList } = useContext(AllMessContext);
   const { setIsRendered, isRendered } = useContext(RenderContext);
   useEffect(() => {
@@ -49,6 +49,10 @@ export default function SelectMess() {
         });
     }
   }, []);
+  useEffect(() => {
+    if (value != "") localStorage.setItem("MessCode", messValue);
+    else localStorage.setItem("MessCode", "NUN");
+  }, [value]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
