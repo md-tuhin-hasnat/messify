@@ -45,7 +45,7 @@ export default function DataTableComponent() {
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button className="mb-4">
-                <Plus className="mr-2 h-4 w-4" /> Add
+                <Plus className="mr-2 h-4 w-4 hidden md:flex" /> Add
               </Button>
             </DialogTrigger>
             <EntryForm

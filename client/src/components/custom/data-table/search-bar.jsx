@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter, Calendar } from "lucide-react";
 import { IconDatePickerComponent } from "./icon-date-picker";
+import IconMonthPickerComponent from "./icon-month-picker";
+import FilterComponent from "./filter";
 
 // Sample data for suggestions
 const sampleSuggestions = [
@@ -24,7 +26,7 @@ export function SearchBar() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedDate, setSelectedDate] = useState();
+  const [selectedMonth, setSelectedMonth] = useState();
   const inputRef = useRef(null);
   const suggestionsRef = useRef(null);
 
@@ -73,15 +75,21 @@ export function SearchBar() {
     setShowSuggestions(false);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleMonthChange = (month) => {
+    setSelectedMonth(month);
+    console.log(selectedMonth);
   };
-
+  const handleCategoryChange = () => {
+    console.log(selectedMonth);
+  };
   return (
     <div className="w-full max-w-xs">
       <form onSubmit={handleSubmit} className="relative">
         <div className="flex items-center space-x-2">
-          <IconDatePickerComponent onDateChange={handleDateChange} />
+          <FilterComponent
+            onMonthChange={handleMonthChange}
+            onCategoryChange={handleCategoryChange}
+          />
           <div className="relative flex-grow flex items-center">
             <Input
               ref={inputRef}

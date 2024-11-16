@@ -9,6 +9,7 @@ const dbUrl = mongoDbUrl;
 const jwtSecret = process.env.JWT_SECRET;
 const googleId = process.env.GOOGLE_ID;
 const googleSecret = process.env.GOOGLE_SECRET;
+const clientURL = process.env.CLIENT_URL;
 
 module.exports = {
   serverPort: port,
@@ -18,4 +19,5 @@ module.exports = {
   googleSecret: googleSecret,
   dbUrlforSession: dbUrlforSession,
   dbName: dbName,
+  clientURL: clientURL,
 };
