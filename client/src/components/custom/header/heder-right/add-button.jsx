@@ -8,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import MessRegistrationDialogComponent from "./mess-registration-dialog";
+import JoinMessDialogComponent from "./join-mess";
 
 export default function AddButtonComponent() {
   const handleJoinMess = () => {
@@ -27,13 +28,7 @@ export default function AddButtonComponent() {
         <div className="bg-background text-foreground">
           <ul className="py-1">
             <li>
-              <Button
-                variant="ghost"
-                className="w-full justify-start rounded-none px-4 py-2 text-sm font-normal"
-                onClick={handleJoinMess}
-              >
-                Join a mess
-              </Button>
+              <JoinMessDialogComponent />
             </li>
             <li>
               <MessRegistrationDialogComponent />

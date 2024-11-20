@@ -83,7 +83,7 @@ export function SearchBar() {
     console.log(selectedMonth);
   };
   return (
-    <div className="w-full max-w-xs">
+    <div className="w-full md:max-w-xs pb-3">
       <form onSubmit={handleSubmit} className="relative">
         <div className="flex items-center space-x-2">
           <FilterComponent

@@ -24,6 +24,7 @@ import { backendURL } from "@/lib/secret";
 import { toast } from "@/hooks/use-toast";
 import { AllMessContext } from "@/app/providers";
 import getMesses from "@/app/actions/get_messes.action";
+import { Description } from "@radix-ui/react-dialog";
 
 export default function MessRegistrationDialogComponent() {
   const [open, setOpen] = useState(false);
@@ -53,7 +54,8 @@ export default function MessRegistrationDialogComponent() {
       );
       if (response.status === 201) {
         toast({
-          title: "Mess Created Successfully",
+          title: "Done !",
+          description: "Mess Created Successfully",
         });
       } else {
         toast({
@@ -69,7 +71,7 @@ export default function MessRegistrationDialogComponent() {
       } else err = "Server Error";
       toast({
         variant: "destructive",
-        title: "Oh no! Login was not Successful",
+        title: "Join request Failed",
         description: err,
       });
     }

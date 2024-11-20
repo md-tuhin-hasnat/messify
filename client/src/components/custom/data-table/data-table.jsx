@@ -8,7 +8,7 @@ import EntryTable from "./entry-table-desktop";
 import EntryList from "./entry-table-mobile";
 import { SearchBar } from "./search-bar";
 
-export default function DataTableComponent() {
+export default function DataTableComponent({ isAdmin }) {
   const [entries, setEntries] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -41,21 +41,23 @@ export default function DataTableComponent() {
     <div className="container mx-auto p-4">
       <div className="flex gap-1 justify-between">
         <SearchBar />
-        <div className="flex justify-end">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="mb-4">
-                <Plus className="mr-2 h-4 w-4 hidden md:flex" /> Add
-              </Button>
-            </DialogTrigger>
-            <EntryForm
-              isOpen={isDialogOpen}
-              onClose={() => setIsDialogOpen(false)}
-              onSubmit={handleAddOrUpdateEntry}
-              editingEntry={editingEntry}
-            />
-          </Dialog>
-        </div>
+        {isAdmin && (
+          <div className="flex justify-end">
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="mb-4">
+                  <Plus className="mr-2 h-4 w-4 hidden md:flex" /> Add
+                </Button>
+              </DialogTrigger>
+              <EntryForm
+                isOpen={isDialogOpen}
+                onClose={() => setIsDialogOpen(false)}
+                onSubmit={handleAddOrUpdateEntry}
+                editingEntry={editingEntry}
+              />
+            </Dialog>
+          </div>
+        )}
       </div>
       {/* Desktop Table View */}
       <div className="hidden md:block">

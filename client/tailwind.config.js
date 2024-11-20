@@ -58,6 +58,7 @@ module.exports = {
       height: {
         navh: "calc(var(--navh) - 3rem - 1px)",
         mavh: "calc(var(--navh) - 6rem - 2px)",
+        novh: "calc(var(--navh) - 12rem - 2px)",
       },
     },
   },
