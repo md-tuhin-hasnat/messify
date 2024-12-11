@@ -25,12 +25,14 @@ export default function DataTableComponent({ isAdmin }) {
         { withCredentials: true }
       )
       if(response.status === 200){
+        const uniqueSuggestions = new Set();
         console.log(response);
         setEntries(response.data.expenses);
         setFullEntries(response.data.expenses);
         response.data.expenses.map((expense)=>{
-          setSampleSuggestions((prev)=>[...prev, expense.product_name]);    
+          uniqueSuggestions.add(expense.product_name);
         })
+        setSampleSuggestions(Array.from(uniqueSuggestions));    
       }
     }
     fetchEntry();
@@ -130,9 +132,13 @@ export default function DataTableComponent({ isAdmin }) {
       })
       setEntries(filtered);
     }
+    else{
+      setEntries(fullEntries);
+    }
   }
   return (
     <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Expense Report</h1>
       <div className="flex gap-1 justify-between">
         <SearchBar
           sampleSuggestions={sampleSuggestions}
