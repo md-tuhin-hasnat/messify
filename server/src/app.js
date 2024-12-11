@@ -15,7 +15,6 @@ require("./config/passport");
 const log = require("./log/timelog");
 const { dbUrl, clientURL } = require("./secrets");
 const messRouter = require("./routes/mess.routes");
-const serverless = require("serverless-http");
 const expenseRouter = require("./routes/expenses.routes");
 const notificationRouter = require("./routes/notifications.routes");
 const app = express();
@@ -83,4 +82,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-module.exports.handler = serverless(app);

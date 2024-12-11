@@ -9,7 +9,7 @@ export default function EntryList({ entries, onEdit, onDelete, total }) {
 
   return (
     <div className="mt-4 space-y-4">
-      {entries.map((entry) => (
+      {entries?.map((entry) => (
         <div
           key={entry.id}
           className="border border-border rounded-lg select-none"
@@ -24,7 +24,7 @@ export default function EntryList({ entries, onEdit, onDelete, total }) {
               <span className="text-xs text-foreground/60">
                 {entry.date ? format(entry.date, "PPP") : ""}
               </span>
-              <span>{entry.productName}</span>
+              <span>{entry.product_name}</span>
             </div>
             <div className="flex gap-1">
               <Button
@@ -79,7 +79,7 @@ export default function EntryList({ entries, onEdit, onDelete, total }) {
           )}
         </div>
       ))}
-      <p className="text-right">Total: {total.toFixed(2)} TK</p>
+      <p className="text-right">Total: {total?.toFixed(2)} TK</p>
     </div>
   );
 }

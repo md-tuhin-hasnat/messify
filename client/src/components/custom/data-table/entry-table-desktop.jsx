@@ -17,16 +17,16 @@ export default function EntryTable({ entries, onEdit, onDelete, total }) {
         </tr>
       </thead>
       <tbody>
-        {entries.map((entry) => (
+        {entries?.map((entry) => (
           <tr key={entry.id} className="border-b border-muted">
             <td className="p-2">
               {entry.date ? format(entry.date, "PPP") : ""}
             </td>
-            <td className="p-2">{entry.productName}</td>
+            <td className="p-2">{entry.product_name}</td>
             <td className="p-2 text-right">{entry.quantity}</td>
-            <td className="p-2 text-right">{entry.rate.toFixed(2)}</td>
-            <td className="p-2 text-right">{entry.discount.toFixed(2)}</td>
-            <td className="p-2 text-right">{entry.subtotal.toFixed(2)}</td>
+            <td className="p-2 text-right">{entry.rate?.toFixed(2)}</td>
+            <td className="p-2 text-right">{entry.discount?.toFixed(2)}</td>
+            <td className="p-2 text-right">{entry.subtotal?.toFixed(2)}</td>
             <td className="p-2 flex gap-1 justify-center">
               <Button
                 className="bg-primary"
@@ -50,18 +50,12 @@ export default function EntryTable({ entries, onEdit, onDelete, total }) {
           </tr>
         ))}
       </tbody>
-      {/* <tfoot>
-        <tr>
-          <td colSpan="5">Total:</td>
-          <td>{total.toFixed(2)} TK</td>
-        </tr>
-      </tfoot> */}
       <tfoot>
         <tr className="bg-muted">
           <td colSpan={5} className="p-2 text-right">
             Total:
           </td>
-          <td className="p-2 text-right">{total.toFixed(2)} TK</td>
+          <td className="p-2 text-right">{total?.toFixed(2)} TK</td>
           <td></td>
         </tr>
       </tfoot>

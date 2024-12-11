@@ -22,7 +22,7 @@ const sampleSuggestions = [
   "React suspense",
 ];
 
-export function SearchBar() {
+export function SearchBar({sampleSuggestions, onSearch}) {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -71,7 +71,8 @@ export function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Searching for:", input, "Date:", selectedDate);
+    console.log("Searching for:", input);
+    onSearch(input);
     setShowSuggestions(false);
   };
 

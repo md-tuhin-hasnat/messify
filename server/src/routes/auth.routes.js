@@ -25,6 +25,7 @@ authRouter.get(
     scope: ["profile","email"],
   })
 );
+//TODO: need to change the client url
 authRouter.get("/google/redirect", passport.authenticate("google",
   {
     successRedirect:"http://localhost:3000/",

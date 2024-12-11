@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import DatePicker from "./date-picker";
 
-// Dummy data for products
+//TODO: Dummy data for products
 const dummyProducts = [
   "Rice",
   "Bread",
@@ -33,12 +33,14 @@ const dummyProducts = [
 
 export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
   const [entry, setEntry] = useState({
-    date: null,
-    productCategory: "",
-    productName: "",
-    quantity: 0,
-    rate: 0,
-    discount: 0,
+    mess_code:"",
+    product_name: "",
+    product_category:"",
+    quantity:0,
+    rate:0,
+    subtotal:0,
+    discount:0,
+    date:null
   });
   const [products, setProducts] = useState(dummyProducts);
   const [suggestions, setSuggestions] = useState([]);
@@ -47,12 +49,14 @@ export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
   useEffect(() => {
     setEntry(
       editingEntry || {
-        date: null,
-        productCategory: "",
-        productName: "",
-        quantity: 0,
-        rate: 0,
-        discount: 0,
+        mess_code:"",
+        product_name: "",
+        product_category:"",
+        quantity:0,
+        rate:0,
+        subtotal:0,
+        discount:0,
+        date:null
       }
     );
   }, [editingEntry]);
@@ -77,10 +81,11 @@ export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
     const { name, value } = e.target;
     setEntry((prev) => ({
       ...prev,
-      [name]: name === "productName" ? value : parseFloat(value) || 0,
+      [name]: name === "product_name" ? value : parseFloat(value) || 0,
+      mess_code: localStorage.getItem('MessCode')
     }));
 
-    if (name === "productName") {
+    if (name === "product_name") {
       const filteredSuggestions = products.filter((product) =>
         product.toLowerCase().includes(value.toLowerCase())
       );
@@ -89,15 +94,15 @@ export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setEntry((prev) => ({ ...prev, productName: suggestion }));
+    setEntry((prev) => ({ ...prev, product_name: suggestion }));
     setSuggestions([]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const subtotal = entry.quantity * entry.rate - entry.discount;
-    if (!products.includes(entry.productName)) {
-      setProducts([...products, entry.productName]);
+    if (!products.includes(entry.product_name)) {
+      setProducts([...products, entry.product_name]);
     }
     onSubmit({ ...entry, subtotal });
     onClose();
@@ -116,11 +121,11 @@ export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
           onChange={(date) => setEntry((prev) => ({ ...prev, date }))}
         />
         <div className="space-y-2">
-          <Label htmlFor="productCategory">Product Category</Label>
+          <Label htmlFor="product_category">Product Category</Label>
           <Select
-            value={entry.productCategory}
+            value={entry.product_category}
             onValueChange={(value) =>
-              setEntry((prev) => ({ ...prev, productCategory: value }))
+              setEntry((prev) => ({ ...prev, product_category: value }))
             }
           >
             <SelectTrigger>
@@ -133,11 +138,11 @@ export default function EntryForm({ isOpen, onClose, onSubmit, editingEntry }) {
           </Select>
         </div>
         <div className="space-y-2 relative">
-          <Label htmlFor="productName">Product Name</Label>
+          <Label htmlFor="product_name">Product Name</Label>
           <Input
-            id="productName"
-            name="productName"
-            value={entry.productName}
+            id="product_name"
+            name="product_name"
+            value={entry.product_name}
             onChange={handleChange}
             placeholder="Enter product name"
           />
