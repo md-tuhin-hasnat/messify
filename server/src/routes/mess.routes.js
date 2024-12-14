@@ -7,6 +7,7 @@ const {
   postJoinRequest,
   approveJoinRequest,
   userRoles,
+  getUser
 } = require("../controllers/mess.control");
 const messRouter = express.Router();
 
@@ -16,5 +17,6 @@ messRouter.post("/approve", checkAuth, approveJoinRequest);
 messRouter.get("/getbyid", checkAuth, getMessByUserId);
 messRouter.get("/getrole/:messCode", checkAuth, userRoles);
 messRouter.get("/getbycode/:messCode", checkAuth, getMessByCode);
+messRouter.get("/get-user/:mess_code", checkAuth, getUser);
 
 module.exports = messRouter;

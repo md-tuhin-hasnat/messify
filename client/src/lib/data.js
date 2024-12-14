@@ -3,7 +3,14 @@ export const users = [
   { id: "2", name: "Jane Smith" },
   { id: "3", name: "Bob Johnson" },
 ]
-
+// Mock data for contributions
+let contributions = [
+  { id: '1', userId: '1', date: '2023-06-15', month: '2023-06', amount: 100 },
+  { id: '2', userId: '2', date: '2023-06-16', month: '2023-06', amount: 150 },
+  { id: '3', userId: '3', date: '2023-06-17', month: '2023-06', amount: 200 },
+  { id: '4', userId: '1', date: '2023-07-01', month: '2023-07', amount: 120 },
+  { id: '5', userId: '2', date: '2023-07-02', month: '2023-07', amount: 180 },
+];
 export const meals = [
   { id: "1", userId: "1", date: "2023-06-01", type: "Breakfast", number: 1 },
   { id: "2", userId: "2", date: "2023-06-01", type: "Lunch", number: 2 },

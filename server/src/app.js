@@ -17,6 +17,9 @@ const { dbUrl, clientURL } = require("./secrets");
 const messRouter = require("./routes/mess.routes");
 const expenseRouter = require("./routes/expenses.routes");
 const notificationRouter = require("./routes/notifications.routes");
+const mealRouter = require("./routes/meal.routes");
+const contributionRouter = require("./routes/contribution.routes");
+const dashBoardRouter = require("./routes/dashboard.routes");
 const app = express();
 const rateLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -63,6 +66,9 @@ app.use("/", homeRouter);
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/mess", messRouter);
+app.use("/api/meal", mealRouter);
+app.use("/api/contribution", contributionRouter);
+app.use("/api/dashboard", dashBoardRouter);
 app.use("/api/expense", expenseRouter);
 app.use("/api/notification", notificationRouter);
 app.use("/api/seed", seedRouter);

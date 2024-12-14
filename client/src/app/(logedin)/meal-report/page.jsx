@@ -1,13 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react'
-import { getMealsByDateAndType, addMeal, updateMeal, users, addBulkMeal, getTotalMealsForDay, getTotalMealsForMonth } from '@/lib/data.js'
+import { useState, useEffect, useContext } from 'react'
 import { DataTable } from '@/components/custom/meal-report/data-table'
-import { DateSelector } from '@/components/custom/meal-report//date-selector'
-import { MealTypeSelector } from '@/components/custom/meal-report//meal-type-selector'
-import { MealForm } from '@/components/custom/meal-report//meal-form'
-import { BulkMealForm } from '@/components/custom/meal-report//bulk-meal-form'
+import { DateSelector } from '@/components/custom/meal-report/date-selector'
+import { MealTypeSelector } from '@/components/custom/meal-report/meal-type-selector'
+import { MealForm } from '@/components/custom/meal-report/meal-form'
+import { BulkMealForm } from '@/components/custom/meal-report/bulk-meal-form'
 import { Button } from "@/components/ui/button"
-import { 
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -15,11 +14,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { backendURL } from '@/lib/secret';
+import axios from 'axios';
+import { toast } from '@/hooks/use-toast';
+import { MessContext } from '@/app/providers';
 
 export default function MealReportPage() {
   const [selectedDate, setSelectedDate] = useState(() => {
     const today = new Date()
-    return today.toISOString().split('T')[0];
+    let td = today.toISOString().split('T')[0];
+    td = td + "T00:00:00.000+00:00";
+    return td;
   })
   const [selectedMealType, setSelectedMealType] = useState('Breakfast')
   const [meals, setMeals] = useState([])
@@ -29,10 +34,18 @@ export default function MealReportPage() {
   const [editingMeal, setEditingMeal] = useState(null)
   const [totalMealsForDay, setTotalMealsForDay] = useState(0)
   const [totalMealsForMonth, setTotalMealsForMonth] = useState(0)
-
+  const [users, setUsers] = useState([])
+  const { messValue, setMessValue } = useContext(MessContext);
   useEffect(() => {
     const fetchInitialData = async () => {
-      updateMeals(selectedDate, selectedMealType)
+      // Replace with API call to fetch initial data
+      // Needs to pass: selectedDate, selectedMealType
+      const response = await axios.get(
+        `${backendURL}/api/meal/get-meal/${selectedDate}/${selectedMealType}/${localStorage.getItem('MessCode')}`,
+        { withCredentials: true }
+      );
+      console.log(response.data)
+      setMeals(response.data);
     }
     fetchInitialData()
   }, [])
@@ -40,13 +53,32 @@ export default function MealReportPage() {
   useEffect(() => {
     const fetchTotals = async () => {
       if (selectedDate) {
-        const date = new Date(selectedDate)
-        setTotalMealsForDay(getTotalMealsForDay(selectedDate))
-        setTotalMealsForMonth(getTotalMealsForMonth(date.getFullYear(), date.getMonth() + 1))
+        // Replace with API call to fetch totals
+        // Needs to pass: selectedDate
+        const response = await axios.get(
+          `${backendURL}/api/meal/totals/${selectedDate}/${localStorage.getItem('MessCode')}`,
+          { withCredentials: true }
+        );
+        setTotalMealsForDay(response.data.daily);
+        setTotalMealsForMonth(response.data.monthly);
       }
     }
     fetchTotals()
   }, [selectedDate, meals])
+
+  useEffect(() => {
+    //  Replace with API call to fetch users
+    const fetchUsers = async () => {
+      const mess_code = localStorage.getItem('MessCode');
+      const response = await axios.get(
+        `${backendURL}/api/mess/get-user/${mess_code}`,
+        { withCredentials: true }
+      );
+      console.log(response);
+      setUsers(response.data);
+    }
+    fetchUsers();
+  }, [])
 
   const handleDateChange = (date) => {
     setSelectedDate(date)
@@ -59,12 +91,48 @@ export default function MealReportPage() {
   }
 
   const updateMeals = async (date, type) => {
-    const fetchedMeals = getMealsByDateAndType(date, type)
-    setMeals(fetchedMeals)
+    // Replace with API call to fetch meals
+    // Needs to pass: date, type
+    const response = await axios.get(
+      `${backendURL}/api/meal/get-meal/${date}/${type}/${localStorage.getItem('MessCode')}`,
+      { withCredentials: true }
+    );
+    console.log(response.data)
+    setMeals(response.data);
+
   }
 
   const handleAddMeal = async (meal) => {
-    addMeal(meal)
+    // Replace with API call to add meal
+    // console.log("meal", meal);
+    // Needs to pass: meal object
+    const response = await axios.post(
+      `${backendURL}/api/meal/add-meal`,
+      {
+        date: meal.date,
+        number: meal.number,
+        type: meal.type,
+        userId: meal.userId,
+        mess_code: localStorage.getItem('MessCode')
+      },
+      { withCredentials: true }
+    );
+
+    if (response.status === 201) {
+      toast({
+        title: "Done!",
+        description: "Meals Recorded Successfully",
+      });
+      updateMeals(selectedDate, selectedMealType)
+      setIsBulkAddDialogOpen(false)
+    }
+    else {
+      toast({
+        variant: "destructive",
+        title: "Oh No! Something went wrong",
+        description: "Failed to Record Meal.",
+      });
+    }
     updateMeals(selectedDate, selectedMealType)
     setIsAddDialogOpen(false)
   }
@@ -75,19 +143,44 @@ export default function MealReportPage() {
   }
 
   const handleUpdateMeal = async (updatedMeal) => {
-    updateMeal(updatedMeal)
+    // TODO: Replace with API call to update meal
+    // Needs to pass: updatedMeal object
+    // await axios.post(`/api/meals/${updatedMeal.id}`, updatedMeal);
     updateMeals(selectedDate, selectedMealType)
     setIsEditDialogOpen(false)
   }
 
   const handleBulkAddMeal = async (entry) => {
-    addBulkMeal(entry)
-    updateMeals(selectedDate, selectedMealType)
-    setIsBulkAddDialogOpen(false)
+    // Replace with API call to bulk add meals
+    const response = await axios.post(
+      `${backendURL}/api/meal/add-bulk`,
+      {
+        date: entry.date,
+        number: entry.number,
+        type: entry.type,
+        mess_code: localStorage.getItem('MessCode')
+      },
+      { withCredentials: true }
+    );
+    if (response.status === 201) {
+      toast({
+        title: "Done!",
+        description: "Meals Recorded Successfully",
+      });
+      updateMeals(selectedDate, selectedMealType)
+      setIsBulkAddDialogOpen(false)
+    }
+    else {
+      toast({
+        variant: "destructive",
+        title: "Oh No! Something went wrong",
+        description: "Failed to Record Meal.",
+      });
+    }
   }
 
   return (
-    (<div className="container mx-auto p-4">
+    messValue !== null && (<div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Meal Report</h1>
       <div className="flex flex-col md:flex-row gap-4 mb-4 justify-between">
         <div className="flex flex-row justify-between gap-4 mb-4">

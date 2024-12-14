@@ -29,9 +29,6 @@ export function BulkMealForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: Replace this with an Axios API call
-    // Example:
-    // await axios.post('/api/meals/bulk', formData);
     onSubmit(formData)
   }
 

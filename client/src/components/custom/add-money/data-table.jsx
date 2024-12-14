@@ -26,25 +26,30 @@ export function DataTable({
       },
     },
     {
-      accessorKey: 'type',
-      header: 'Meal Type',
+      accessorKey: 'date',
+      header: 'Date of Contribution',
     },
     {
-      accessorKey: 'number',
-      header: 'Number of Meals',
+      accessorKey: 'month',
+      header: 'Month',
+    },
+    {
+      accessorKey: 'amount',
+      header: 'Amount',
+      cell: ({ row }) => `৳ ${row.getValue('amount')}`,
     },
     {
       id: 'actions',
       cell: ({ row }) => (
         <Button
           onClick={() => {
-            // TODO: Replace this with an API call to fetch the full meal data if needed
+            // TODO: Replace this with an API call to fetch the full contribution data if needed
             // Needs to pass: row.original.id
-            // const fetchMeal = async () => {
-            //   const response = await axios.get(`/api/meals/${row.original.id}`);
+            // const fetchContribution = async () => {
+            //   const response = await axios.get(`/api/contributions/${row.original.id}`);
             //   onEdit(response.data);
             // }
-            // fetchMeal();
+            // fetchContribution();
             onEdit(row.original)
           }}>Edit</Button>
       ),

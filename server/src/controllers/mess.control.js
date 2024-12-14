@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 const { mess } = require("../models/mess.model");
 const { userToMess } = require("../models/user-mess.model ");
 const { notification } = require("../models/notifications.model");
+const { user } = require("../models/users.model");
 
 async function createMess(req, res, next) {
   function generateRandomCode(length = 6) {
@@ -172,6 +173,26 @@ async function userRoles(req, res, next) {
     next(createHttpError(500, "Server Error"));
   }
 }
+
+async function getUser(req,res,next){
+  const mess_code = req.params.mess_code;
+  try {
+    const userOfMess = await userToMess.find({messCode:mess_code});
+    let users = [];
+    for (let i = 0; i < userOfMess.length; i++) {
+      const u2m = userOfMess[i];
+      const _user = await user.findById(u2m.userId);
+      const userData = {
+        id: _user.id,
+        name: _user.name
+      }
+      users.push(userData);
+    }
+    res.status(200).send(users);
+  } catch (error) {
+    next(createHttpError(500, "Server Error"));
+  }
+}
 module.exports = {
   createMess,
   getMessByUserId,
@@ -179,4 +200,5 @@ module.exports = {
   postJoinRequest,
   approveJoinRequest,
   userRoles,
+  getUser
 };

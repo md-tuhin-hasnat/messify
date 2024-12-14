@@ -5,6 +5,7 @@ import {
   FaCartShopping,
   FaChartSimple,
   FaCartPlus,
+  FaMoneyBill1,
 } from "react-icons/fa6";
 import NavLink from "./navLink";
 import getUserRole from "@/app/actions/get_user_role.action";
@@ -21,7 +22,7 @@ export default function NavLinks() {
   }, [messValue]);
   return (
     <ul className="w-[250px] flex flex-col p-2">
-      <NavLink address={"/"} icon={FaHouse} linkName={"Home"} />
+      {!isAdmin && (<NavLink address={"/"} icon={FaHouse} linkName={"Home"} />)}
       {isAdmin && (
         <NavLink
           address={"/dashboard"}
@@ -36,16 +37,23 @@ export default function NavLinks() {
         icon={FaUtensils}
         linkName={"Meal Report"}
       />
-      <NavLink
+      {!isAdmin && (<NavLink
         address={"/expenditure"}
         icon={FaCartShopping}
         linkName={"Expenditure"}
-      />
+      />)}
       {isAdmin && (
         <NavLink
           address={"/add-expense"}
           icon={FaCartPlus}
           linkName={"Add Expense"}
+        />
+      )}
+      {isAdmin && (
+        <NavLink
+          address={"/add-money"}
+          icon={FaMoneyBill1}
+          linkName={"Add Contribution"}
         />
       )}
     </ul>

@@ -11,22 +11,6 @@ export function ThemeProviders({ children }) {
   );
 }
 
-// export const MessContext = createContext();
-// export function MessProvider({ children }) {
-//   const [messValue, setMessValue] = useState("Mess Code");
-//   useEffect(() => {
-//     const messCode = localStorage.getItem("MessCode");
-//     if (messCode != "NUN") {
-//       setMessValue(messCode);
-//     }
-//   });
-//   return (
-//     <MessContext.Provider value={{ messValue, setMessValue }}>
-//       {children}
-//     </MessContext.Provider>
-//   );
-// }
-
 export const MessContext = createContext();
 export const MessProvider = ({ children }) => {
   const [messValue, setMessValue] = useState(null); // Initialize as null to avoid conflicts

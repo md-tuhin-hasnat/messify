@@ -69,7 +69,7 @@ export default function DataTableComponent({ isAdmin }) {
           { withCredentials: true }
         );
         if (response.status === 201) {
-          console.log("Response ",response.data.id);
+          // console.log("Response ",response.data.id);
           toast({
             title: "Done",
             description: "Expense was recorded successfully.",
