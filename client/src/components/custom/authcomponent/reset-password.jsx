@@ -25,7 +25,7 @@ export default function ResetPassword() {
   const onSubmitForgotPassword = async (data) => {
     setIsLoading(true);
     //TODO Here i would typically send a password reset email
-    console.log("Password reset requested for:", data.email);
+    // console.log("Password reset requested for:", data.email);
     setTimeout(() => setIsLoading(false), 3000); // Simulating API call
   };
   return (

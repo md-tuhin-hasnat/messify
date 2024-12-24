@@ -85,7 +85,7 @@ export default function JoinMessDialogComponent() {
       const inputCode = sanitizeInput(messCode.trim());
       if (inputCode.length === 6) {
         const response = await getMessByCode({ mess_code: inputCode });
-        console.log(response);
+        // console.log(response);
         if (response.success) {
           setMessError("");
           setMessName(`Mess Name : ${response.messname}`);

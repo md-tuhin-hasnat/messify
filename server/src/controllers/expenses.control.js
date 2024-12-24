@@ -21,7 +21,7 @@ async function getExpense(req, res, next) {
       }
       expenses.push(expense);
     }
-    console.log(expense);
+    // console.log(expense);
     res.status(200).send({
       success:true,
       expenses
@@ -52,7 +52,7 @@ async function addExpense(req, res, next) {
 }
 async function editExpense(req, res, next) {
   const {id,mess_code,product_name, product_category, quantity, rate, subtotal,date, discount} = req.body;
-  console.log(id);
+  // console.log(id);
   try {
     const findExpense = await expense.findByIdAndUpdate(
       id,
@@ -79,7 +79,7 @@ async function editExpense(req, res, next) {
 
 async function deleteExpense(req, res, next) {
   const {id} = req.body;
-  console.log("id", id);
+  // console.log("id", id);
   try {
     const findExpense = await expense.findByIdAndDelete(id);
     res.status(200).send({success: true});

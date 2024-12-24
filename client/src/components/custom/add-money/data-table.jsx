@@ -13,8 +13,23 @@ import { Button } from "@/components/ui/button"
 export function DataTable({
   data,
   onEdit,
-  users
+  users,
+  byDate = false
 }) {
+  const months = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' },
+  ]
   const columns = [
     {
       accessorKey: 'userId',
@@ -26,19 +41,23 @@ export function DataTable({
       },
     },
     {
-      accessorKey: 'date',
-      header: 'Date of Contribution',
-    },
-    {
       accessorKey: 'month',
       header: 'Month',
+      cell: ({row}) => `${months[row.getValue('month')-1].label}`
     },
-    {
-      accessorKey: 'amount',
-      header: 'Amount',
-      cell: ({ row }) => `৳ ${row.getValue('amount')}`,
-    },
-    {
+  ]
+  if(byDate){
+    columns.push({
+        accessorKey: 'date',
+        header: 'Date of Contribution',
+        cell: ({row}) => `${row.getValue('date')!=='-'?new Date(row.getValue('date')).getDate():""}${row.getValue('date')!=='-'?'/': "-"}${row.getValue('date')!=='-'?new Date(row.getValue('date')).getMonth()+1: ""}${row.getValue('date')!=='-'?'/': ""}${row.getValue('date')!=='-'?new Date(row.getValue('date')).getFullYear():""}`
+    });
+    columns.push({
+        accessorKey: 'amount',
+        header: 'Amount',
+        cell: ({ row }) => `৳ ${row.getValue('amount')}`,
+    });
+    columns.push({
       id: 'actions',
       cell: ({ row }) => (
         <Button
@@ -53,9 +72,15 @@ export function DataTable({
             onEdit(row.original)
           }}>Edit</Button>
       ),
-    },
-  ]
-
+    });
+  }
+  else{
+    columns.push({
+      accessorKey: 'amount',
+      header: 'Amount',
+      cell: ({ row }) => `৳ ${row.getValue('amount')}`,
+    });
+  }
   const table = useReactTable({
     data,
     columns,

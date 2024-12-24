@@ -8,10 +8,10 @@ const { contribution } = require("../models/contribution.model");
 
 async function getData(req,res,next){
   const {mess_code, month} = req.params;
-  console.log("Month : ",month);
+  // console.log("Month : ",month);
   try {
     const _expenses = await expense.find({mess_code: mess_code});
-    console.log(_expenses);
+    // console.log(_expenses);
     let totalExpense = 0;
     for (let i = 0; i < _expenses.length; i++) {
       const _expense = _expenses[i];
@@ -40,9 +40,22 @@ async function getData(req,res,next){
       }
     }
 
-    const _user = await user.findById(req.user.id);
-    let supervisorName = _user.name;
-
+    const _user2mess = await userToMess.find({messCode: mess_code});
+    let supervisorName = "Select a Mess to see Supervisor";
+    // _user2mess.map(async (u2m)=>{
+    //   if(u2m.userType==="admin"){
+    //     const _user = await user.findById(u2m.userId);
+    //     supervisorName =_user.name;
+    //   }
+    // })
+    for (let i = 0; i < _user2mess.length; i++) {
+      const u2m = _user2mess[i];
+      if(u2m.userType==="admin"){
+        const _user = await user.findById(u2m.userId);
+        supervisorName =_user.name;
+      }
+    }
+    // console.log(_user2mess);
     let messCode = mess_code;
 
     let predictedMealRate = totalExpense/totalMeals;

@@ -57,9 +57,9 @@ export default function NotificationBell() {
   };
 
   const handleAction = (action) => {
-    console.log(
-      `${action} action for notification ${selectedNotification?.id}`
-    );
+    // console.log(
+    //   `${action} action for notification ${selectedNotification?.id}`
+    // );
     handleClose();
   };
 

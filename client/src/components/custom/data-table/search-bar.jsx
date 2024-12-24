@@ -71,17 +71,17 @@ export function SearchBar({sampleSuggestions, onSearch}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Searching for:", input);
+    // console.log("Searching for:", input);
     onSearch(input);
     setShowSuggestions(false);
   };
 
   const handleMonthChange = (month) => {
     setSelectedMonth(month);
-    console.log(selectedMonth);
+    // console.log(selectedMonth);
   };
   const handleCategoryChange = () => {
-    console.log(selectedMonth);
+    // console.log(selectedMonth);
   };
   return (
     <div className="w-full md:max-w-xs pb-3">

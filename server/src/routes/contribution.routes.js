@@ -5,7 +5,7 @@ const { addMoney, getContribution, getTotalContribution } = require("../controll
 const contributionRouter = express.Router();
 
 contributionRouter.post("/add-money", checkAuth, addMoney);
-contributionRouter.get("/get-contribution/:date/:month/:mess_code", checkAuth, getContribution);
-contributionRouter.get("/get-total-contribution/:month/:mess_code", checkAuth, getTotalContribution);
+contributionRouter.get("/get-contribution/:month/:year/:mess_code", checkAuth, getContribution);
+contributionRouter.get("/get-total-contribution/:month/:year/:mess_code", checkAuth, getTotalContribution);
 
 module.exports = contributionRouter;

@@ -80,7 +80,7 @@ export function MoneyForm({
   }
 
   return (
-    (<Card className="w-full border-0 mx-auto">
+    (<Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl font-medium text-center">
           {initialData ? 'Update Contribution' : 'Add Contribution'}

@@ -40,7 +40,7 @@ export default function NotificationBell() {
     if (isLoading || !hasMore) return;
     setIsLoading(true);
     const newNotifications = await fetchNotificationByPage({ page });
-    console.log(newNotifications);
+    // console.log(newNotifications);
     if (newNotifications.length === 0) {
       setHasMore(false);
     } else {

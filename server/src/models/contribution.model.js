@@ -21,6 +21,10 @@ const contributionSchema = new Schema(
     month:{
       type: Number,
       required:[true, "Month is required!"],
+    },
+    year:{
+      type: Number,
+      required:[true, "Year is required!"],
     }
   }
 );

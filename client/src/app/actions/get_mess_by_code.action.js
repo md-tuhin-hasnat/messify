@@ -1,6 +1,6 @@
 import { backendURL } from "@/lib/secret";
 export default async function getMessByCode({ mess_code }) {
-  console.log(mess_code);
+  // console.log(mess_code);
   try {
     const response = await fetch(
       `${backendURL}/api/mess/getbycode/${mess_code}`,

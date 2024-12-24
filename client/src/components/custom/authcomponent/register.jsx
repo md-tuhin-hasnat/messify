@@ -50,7 +50,7 @@ export default function Register({ setActiveTab }) {
         setActiveTab("login");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setIsLoading(false);
       var err;
       if (error?.response) {

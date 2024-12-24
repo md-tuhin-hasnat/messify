@@ -24,12 +24,12 @@ export default function ProfilePage() {
   const handleProfileUpdate = (e) => {
     e.preventDefault()
     // TODO: Implement profile update logic
-    console.log('Profile updated:', { name, email })
+    // console.log('Profile updated:', { name, email })
   }
 
   return (
     (<div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold">Profile Settings</h1>
+      <h1 className="text-3xl font-medium">Profile Settings</h1>
       <Card>
         <CardHeader>
           <CardTitle>Profile Information</CardTitle>

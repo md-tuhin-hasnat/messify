@@ -44,7 +44,7 @@ export default function MealReportPage() {
         `${backendURL}/api/meal/get-meal/${selectedDate}/${selectedMealType}/${localStorage.getItem('MessCode')}`,
         { withCredentials: true }
       );
-      console.log(response.data)
+      // console.log(response.data)
       setMeals(response.data);
     }
     fetchInitialData()
@@ -74,7 +74,7 @@ export default function MealReportPage() {
         `${backendURL}/api/mess/get-user/${mess_code}`,
         { withCredentials: true }
       );
-      console.log(response);
+      // console.log(response);
       setUsers(response.data);
     }
     fetchUsers();
@@ -97,7 +97,7 @@ export default function MealReportPage() {
       `${backendURL}/api/meal/get-meal/${date}/${type}/${localStorage.getItem('MessCode')}`,
       { withCredentials: true }
     );
-    console.log(response.data)
+    // console.log(response.data)
     setMeals(response.data);
 
   }
@@ -181,7 +181,7 @@ export default function MealReportPage() {
 
   return (
     messValue !== null && (<div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Meal Report</h1>
+      <h1 className="text-2xl font-medium mb-4">Meal Report</h1>
       <div className="flex flex-col md:flex-row gap-4 mb-4 justify-between">
         <div className="flex flex-row justify-between gap-4 mb-4">
           <DateSelector onChange={handleDateChange} defaultValue={selectedDate} />
@@ -218,7 +218,7 @@ export default function MealReportPage() {
             <CardTitle className="text-sm font-medium">Daily Total</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalMealsForDay}</div>
+            <div className="text-2xl font-medium">{totalMealsForDay}</div>
             <p className="text-xs text-muted-foreground">meals on {selectedDate}</p>
           </CardContent>
         </Card>
@@ -227,7 +227,7 @@ export default function MealReportPage() {
             <CardTitle className="text-sm font-medium">Monthly Total</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalMealsForMonth}</div>
+            <div className="text-2xl font-medium">{totalMealsForMonth}</div>
             <p className="text-xs text-muted-foreground">meals this month</p>
           </CardContent>
         </Card>

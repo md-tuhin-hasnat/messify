@@ -13,7 +13,7 @@ import JoinMessDialogComponent from "./join-mess";
 export default function AddButtonComponent() {
   const handleJoinMess = () => {
     // Implement join mess functionality
-    console.log("Join a mess clicked");
+    // console.log("Join a mess clicked");
   };
 
   return (

@@ -26,7 +26,7 @@ export default function DataTableComponent({ isAdmin }) {
       )
       if(response.status === 200){
         const uniqueSuggestions = new Set();
-        console.log(response);
+        // console.log(response);
         setEntries(response.data.expenses);
         setFullEntries(response.data.expenses);
         response.data.expenses.map((expense)=>{
@@ -40,7 +40,7 @@ export default function DataTableComponent({ isAdmin }) {
   const handleAddOrUpdateEntry = async (entry) => {
     try {
       let response;
-      console.log(entry);
+      // console.log(entry);
       if (entry.id) {
         // Editing existing entry
         response = await axios.post(
@@ -97,7 +97,7 @@ export default function DataTableComponent({ isAdmin }) {
 
   const handleDelete = useCallback(async (id) =>{
     // Deleting entry
-    console.log("ID : ", id)
+    // console.log("ID : ", id)
     try {
       const response = await axios.post(
         `${backendURL}/api/expense/delete-expense`,
@@ -113,7 +113,7 @@ export default function DataTableComponent({ isAdmin }) {
         setFullEntries((prev) => prev.filter((entry) => entry.id !== id));
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast({
         variant: "destructive",
         title: "Oh No! Something went wrong",
@@ -125,7 +125,7 @@ export default function DataTableComponent({ isAdmin }) {
   const total = entries?.reduce((sum, entry) => sum + entry.subtotal, 0);
   const onSearch = (input) =>{
     //Todo: search
-    console.log("Search Params: ",input);
+    // console.log("Search Params: ",input);
     if(input.length > 0){
       const filtered = fullEntries.filter((product) => {
         return product.product_name.toLowerCase().includes(input.toLowerCase())
@@ -138,7 +138,7 @@ export default function DataTableComponent({ isAdmin }) {
   }
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Expense Report</h1>
+      <h1 className="text-2xl font-medium mb-4">Expense Report</h1>
       <div className="flex gap-1 justify-between">
         <SearchBar
           sampleSuggestions={sampleSuggestions}

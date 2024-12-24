@@ -9,7 +9,7 @@ export default async function getMesses() {
     if (response.ok) {
       return response.json();
     } else {
-      console.log("error");
+      // console.log("error");
       return {
         message: "error",
       };
