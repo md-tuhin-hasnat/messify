@@ -2,9 +2,17 @@ const createHttpError = require("http-errors");
 const { userToMess } = require("../models/user-mess.model ");
 const { user } = require("../models/users.model");
 const { meal } = require("../models/meal.model");
-
+const dateToMonth = (_date) => {
+  const date = new Date(_date);
+  const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+  ];
+  return monthNames[date.getMonth()];
+}
 async function addBulk(req,res,next){
   const {date,number,type,mess_code} = req.body;
+  const month = dateToMonth(date);
   try {
     const userOfMess = await userToMess.find({messCode:mess_code});
     userOfMess.map(async (_user)=>{
@@ -15,7 +23,8 @@ async function addBulk(req,res,next){
         member_id: User.id,
         meal_quantity: number,
         member_name: User.name,
-        date: date
+        date: date,
+        month: month
       })
       await newMeal.save();
     })
@@ -27,6 +36,7 @@ async function addBulk(req,res,next){
 
 async function addMeal(req,res,next){
   const {date,number,type,mess_code, userId} = req.body;
+  const month = dateToMonth(date);
   try {
     const User = await user.findById(userId);
       const newMeal = new meal({
@@ -35,7 +45,8 @@ async function addMeal(req,res,next){
         member_id: User.id,
         meal_quantity: number,
         member_name: User.name,
-        date: date
+        date: date,
+        month: month
       })
       await newMeal.save();
     res.status(201).send({success: true});
@@ -46,19 +57,52 @@ async function addMeal(req,res,next){
 
 async function getMeal(req,res,next){
   const {date,type,mess_code} = req.params;
+  const month = dateToMonth(date);
   try {
-    const Meal = await meal.find({date:date, type:type, mess_code:mess_code});
+    let Meal;
+    if(type !== "All_Meal" ) Meal = await meal.find({month:month, type:type, mess_code:mess_code});
+    else Meal = await meal.find({month:month, mess_code:mess_code});
     let meals = [];
+    let mealsByDate = new Map();
     for (let i = 0; i < Meal.length; i++) {
       const _meal = Meal[i];
       const meal = {
         id : _meal.member_id,
         userId: _meal.member_id,
-        type: _meal.type,
-        number: _meal.meal_quantity,
+        breakfast: 0,
+        lunch: 0,
+        diner: 0,
+        total: 0,
         date: _meal.date
       }
-      meals.push(meal);
+      if(_meal.type === 'Breakfast'){
+        meal.breakfast += _meal.meal_quantity;
+        meal.total += _meal.meal_quantity;
+      }
+      else if(_meal.type === 'Lunch'){
+        meal.lunch += _meal.meal_quantity;
+        meal.total += _meal.meal_quantity;
+      }
+      else{
+        meal.diner += _meal.meal_quantity;
+        meal.total += _meal.meal_quantity;
+      }
+
+
+      if(mealsByDate.has(meal.date.toString()+meal.userId.toString())){
+        let befor = mealsByDate.get(meal.date.toString()+meal.userId.toString());
+        befor.breakfast += meal.breakfast;
+        befor.lunch += meal.lunch;
+        befor.diner += meal.diner;
+        befor.total += meal.total;
+        mealsByDate.set(meal.date.toString()+meal.userId.toString(), befor);
+      }
+      else{
+        mealsByDate.set(meal.date.toString()+meal.userId.toString(), meal);
+      }
+    }
+    for(const [key, value] of mealsByDate){
+      meals.push(value);
     }
     res.status(200).send(meals);
   } catch (error) {

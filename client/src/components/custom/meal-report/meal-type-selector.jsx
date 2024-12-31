@@ -16,6 +16,7 @@ export function MealTypeSelector({
         <SelectValue placeholder="Select meal type" />
       </SelectTrigger>
       <SelectContent>
+        <SelectItem value="All_Meal">All Meal</SelectItem>
         <SelectItem value="Breakfast">Breakfast</SelectItem>
         <SelectItem value="Lunch">Lunch</SelectItem>
         <SelectItem value="Dinner">Dinner</SelectItem>

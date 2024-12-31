@@ -8,11 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
 
 export function DataTable({
   data,
-  onEdit,
   users,
   byDate = false
 }) {
@@ -56,22 +54,6 @@ export function DataTable({
         accessorKey: 'amount',
         header: 'Amount',
         cell: ({ row }) => `৳ ${row.getValue('amount')}`,
-    });
-    columns.push({
-      id: 'actions',
-      cell: ({ row }) => (
-        <Button
-          onClick={() => {
-            // TODO: Replace this with an API call to fetch the full contribution data if needed
-            // Needs to pass: row.original.id
-            // const fetchContribution = async () => {
-            //   const response = await axios.get(`/api/contributions/${row.original.id}`);
-            //   onEdit(response.data);
-            // }
-            // fetchContribution();
-            onEdit(row.original)
-          }}>Edit</Button>
-      ),
     });
   }
   else{

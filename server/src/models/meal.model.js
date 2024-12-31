@@ -25,6 +25,10 @@ const mealSchema = new Schema(
     date:{
       type: Date,
       required:[true, "Date is required!"],
+    },
+    month:{
+      type: String,
+      required:[true, "Month is required!"],
     }
   }
 );

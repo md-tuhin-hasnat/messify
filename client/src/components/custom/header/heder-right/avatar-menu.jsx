@@ -28,8 +28,8 @@ export default function AvatarMenu() {
       console.error("Error:", error);
     }
   };
-  const onProfile = () => console.log("Profile clicked");
-  const onSettings = () => console.log("Settings clicked");
+  // const onProfile = () => console.log("Profile clicked");
+  // const onSettings = () => console.log("Settings clicked");
 
   const [userName, setUserName] = useState("My Account");
   const [userImage, setUserImage] = useState("");
@@ -68,8 +68,8 @@ export default function AvatarMenu() {
       <DropdownMenuContent align="end" className="w-56 border-border">
         <DropdownMenuLabel>{userName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={onProfile}>Profile</DropdownMenuItem>
-        <DropdownMenuItem onClick={onSettings}>Settings</DropdownMenuItem>
+        {/* <DropdownMenuItem onClick={onProfile}>Profile</DropdownMenuItem>
+        <DropdownMenuItem onClick={onSettings}>Settings</DropdownMenuItem> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>

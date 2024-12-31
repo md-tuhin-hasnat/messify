@@ -19,7 +19,7 @@ export const MessProvider = ({ children }) => {
   useEffect(() => {
     // Initialize messValue from localStorage only once
     const storedMessCode = localStorage.getItem("MessCode");
-    if (storedMessCode) {
+    if (storedMessCode !== null) {
       setMessValue(storedMessCode); // Use the stored value if available
       getUserRole({ messCode: storedMessCode }).then((response) => {
         if (response.success && response.role === "admin") {

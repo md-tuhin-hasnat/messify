@@ -124,7 +124,7 @@ export default function DataTableComponent({ isAdmin }) {
 
   const total = entries?.reduce((sum, entry) => sum + entry.subtotal, 0);
   const onSearch = (input) =>{
-    //Todo: search
+    //search
     // console.log("Search Params: ",input);
     if(input.length > 0){
       const filtered = fullEntries.filter((product) => {

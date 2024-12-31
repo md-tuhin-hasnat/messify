@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { ExpenseCategorySelector } from "./expense-category-selector";
 import { MonthYearSelector } from "./month-year-selector";
 
-export default function FilterComponent({ onMonthChange, onCategoryChange }) {
+export default function FilterComponent({ onMonthChange, onCategoryChange}) {
   const [date, setDate] = useState(() => new Date());
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState("All Expense");

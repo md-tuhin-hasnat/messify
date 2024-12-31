@@ -12,13 +12,16 @@ async function getData(req,res,next){
   try {
     const _expenses = await expense.find({mess_code: mess_code});
     // console.log(_expenses);
-    let totalExpense = 0;
+    let totalExpense = 0, mealExpense = 0;
     for (let i = 0; i < _expenses.length; i++) {
       const _expense = _expenses[i];
       const Month = new Date(_expense.date).getMonth();
       // console.log("------------------------------------ A", Month, " B", new Date(month).getMonth());
       if(new Date(month).getMonth() === Month){
         totalExpense += _expense.subtotal;
+        if(_expense.product_category === "Meal Expense"){
+          mealExpense+= _expense.subtotal;
+        }
       }
     }
 
@@ -42,12 +45,6 @@ async function getData(req,res,next){
 
     const _user2mess = await userToMess.find({messCode: mess_code});
     let supervisorName = "Select a Mess to see Supervisor";
-    // _user2mess.map(async (u2m)=>{
-    //   if(u2m.userType==="admin"){
-    //     const _user = await user.findById(u2m.userId);
-    //     supervisorName =_user.name;
-    //   }
-    // })
     for (let i = 0; i < _user2mess.length; i++) {
       const u2m = _user2mess[i];
       if(u2m.userType==="admin"){
@@ -58,7 +55,7 @@ async function getData(req,res,next){
     // console.log(_user2mess);
     let messCode = mess_code;
 
-    let predictedMealRate = totalExpense/totalMeals;
+    let predictedMealRate = mealExpense/totalMeals;
     let currentMonthExpenses = totalExpense;
 
     let previousMonthExpenses = 0;

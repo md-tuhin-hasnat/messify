@@ -1,8 +1,12 @@
+"use client"
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { useContext } from "react";
+import { MessContext } from "@/app/providers";
 
 export default function EntryTable({ entries, onEdit, onDelete, total }) {
+  const { isAdmin } = useContext(MessContext);
   return (
     <table className="w-full border-collapse">
       <thead>
@@ -13,7 +17,7 @@ export default function EntryTable({ entries, onEdit, onDelete, total }) {
           <th className="p-2 text-right font-normal">Rate (TK)</th>
           <th className="p-2 text-right font-normal">Discount (TK)</th>
           <th className="p-2 text-right font-normal">Subtotal (TK)</th>
-          <th className="p-2 text-center font-normal">Actions</th>
+          {(isAdmin && <th className="p-2 text-center font-normal">Actions</th>)}
         </tr>
       </thead>
       <tbody>
@@ -27,7 +31,7 @@ export default function EntryTable({ entries, onEdit, onDelete, total }) {
             <td className="p-2 text-right">{entry.rate?.toFixed(2)}</td>
             <td className="p-2 text-right">{entry.discount?.toFixed(2)}</td>
             <td className="p-2 text-right">{entry.subtotal?.toFixed(2)}</td>
-            <td className="p-2 flex gap-1 justify-center">
+            {(isAdmin && <td className="p-2 flex gap-1 justify-center">
               <Button
                 className="bg-primary"
                 type="button"
@@ -46,7 +50,7 @@ export default function EntryTable({ entries, onEdit, onDelete, total }) {
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
-            </td>
+            </td>)}
           </tr>
         ))}
       </tbody>

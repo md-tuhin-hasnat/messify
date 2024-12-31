@@ -203,14 +203,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { DataTable } from '@/components/custom/add-money/data-table';
-import { MonthYearSelector } from '@/components/custom/add-money/month-year-selector'; // Import new MonthYearSelector
+import { MonthYearSelector } from '@/components/custom/add-money/month-year-selector';
 import { MoneyForm } from '@/components/custom/add-money/money-form';
 import { Button } from "@/components/ui/button";
 import { 
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -229,8 +227,6 @@ export default function AddMoneyPage() {
   const [contributions, setContributions] = useState([]);
   const [contributionsByDate, setContributionsByDate] = useState([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editingContribution, setEditingContribution] = useState(null);
   const [totalContributions, setTotalContributions] = useState(0);
   const [users, setUsers] = useState([]);
 
@@ -273,7 +269,6 @@ export default function AddMoneyPage() {
   const handleMonthYearChange = (value) => {
     setSelectedMonthYear(value);
   };
-
   const handleAddContribution = async (contribution) => {
     const response = await axios.post(
       `${backendURL}/api/contribution/add-money`,
@@ -339,7 +334,7 @@ export default function AddMoneyPage() {
       </div>
       <div>
         <h2 className="text-xl font-semibold mb-4">Contributions by Date</h2>
-        <DataTable data={contributionsByDate} users={users} byDate={true} />
+        <DataTable data={contributionsByDate} users={users} byDate={true}/>
       </div>
     </div>
   );

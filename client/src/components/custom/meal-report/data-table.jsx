@@ -17,6 +17,15 @@ export function DataTable({
 }) {
   const columns = [
     {
+      accessorKey: 'date',
+      header: 'Date',
+      cell: ({ row }) => {
+        const date = row.getValue('date')
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return new Intl.DateTimeFormat('en-GB', options).format(new Date(date));
+      },
+    },
+    {
       accessorKey: 'userId',
       header: 'User',
       cell: ({ row }) => {
@@ -26,29 +35,21 @@ export function DataTable({
       },
     },
     {
-      accessorKey: 'type',
-      header: 'Meal Type',
+      accessorKey: 'diner',
+      header: 'Diner',
     },
     {
-      accessorKey: 'number',
-      header: 'Number of Meals',
+      accessorKey: 'breakfast',
+      header: 'Breakfast',
     },
     {
-      id: 'actions',
-      cell: ({ row }) => (
-        <Button
-          onClick={() => {
-            // TODO: Replace this with an API call to fetch the full meal data if needed
-            // Needs to pass: row.original.id
-            // const fetchMeal = async () => {
-            //   const response = await axios.get(`/api/meals/${row.original.id}`);
-            //   onEdit(response.data);
-            // }
-            // fetchMeal();
-            onEdit(row.original)
-          }}>Edit</Button>
-      ),
+      accessorKey: 'lunch',
+      header: 'Lunch',
     },
+    {
+      accessorKey: 'total',
+      header: 'Total Meals',
+    }
   ]
 
   const table = useReactTable({

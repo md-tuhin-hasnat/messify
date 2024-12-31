@@ -22,21 +22,26 @@ export default function NavLinks() {
   }, [messValue]);
   return (
     <ul className="w-[250px] flex flex-col p-2">
-      {!isAdmin && (<NavLink address={"/"} icon={FaHouse} linkName={"Home"} />)}
+      {(<NavLink address={"/"} icon={FaHouse} linkName={"Personal Dashboard"} />)}
       {isAdmin && (
         <NavLink
           address={"/dashboard"}
           icon={FaChartSimple}
-          linkName={"DashBoard"}
+          linkName={"DashBoard (Supervisor)"}
         />
       )}
 
-      <NavLink address={"/profile"} icon={FaUser} linkName={"Profile"} />
-      <NavLink
+      {/* <NavLink address={"/profile"} icon={FaUser} linkName={"Profile"} /> */}
+      {isAdmin && <NavLink
+        address={"/meal-record"}
+        icon={FaUtensils}
+        linkName={"Meal Record"}
+      />}
+      {!isAdmin && <NavLink
         address={"/meal-report"}
         icon={FaUtensils}
         linkName={"Meal Report"}
-      />
+      />}
       {!isAdmin && (<NavLink
         address={"/expenditure"}
         icon={FaCartShopping}

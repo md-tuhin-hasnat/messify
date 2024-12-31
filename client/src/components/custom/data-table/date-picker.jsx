@@ -1,45 +1,20 @@
-// src/components/DatePicker.js
-import React, { useState } from "react";
-import { Calendar } from "@/components/ui/calendar"; // ShadCN Calendar
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+"use client"
 
-const DatePicker = ({ selectedDate, onChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
+import React from 'react'
+import ReactDatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
+import { CalendarIcon } from 'lucide-react'
 
-  const handleDateSelect = (date) => {
-    onChange(date);
-    setIsOpen(false); // Close popover after date selection
-  };
-
+export function DatePicker({ selectedDate, onChange, className }) {
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full justify-start text-left font-normal"
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0 z-[999999]" align="start">
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={handleDateSelect}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-export default DatePicker;
+    <div className={`relative ${className}`}>
+      <ReactDatePicker
+        selected={selectedDate}
+        onChange={onChange}
+        dateFormat="MMMM d, yyyy"
+        className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <CalendarIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+    </div>
+  )
+}

@@ -21,6 +21,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { motion } from "framer-motion"
+import { DatePicker } from '../data-table/date-picker';
 
 const months = [
   { value: '01', label: 'January' },
@@ -109,26 +110,10 @@ export function MoneyForm({
 
           <div className="space-y-2">
             <Label htmlFor="date">Date of Contribution</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !formData.date && "text-muted-foreground"
-                  )}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {formData.date ? format(formData.date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={formData.date}
-                  onSelect={handleDateChange}
-                  initialFocus />
-              </PopoverContent>
-            </Popover>
+            <DatePicker
+              selectedDate={formData.date}
+              onChange={handleDateChange}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">

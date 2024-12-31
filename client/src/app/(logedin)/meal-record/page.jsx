@@ -183,6 +183,30 @@ export default function MealReportPage() {
           <DateSelector onChange={handleDateChange} defaultValue={selectedDate} />
           <MealTypeSelector onChange={handleMealTypeChange} defaultValue={selectedMealType} />
         </div>
+        <div className="flex flex-row justify-end gap-4 mb-4">
+          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>Add Meal</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Meal</DialogTitle>
+              </DialogHeader>
+              <MealForm onSubmit={handleAddMeal} users={users} />
+            </DialogContent>
+          </Dialog>
+          <Dialog open={isBulkAddDialogOpen} onOpenChange={setIsBulkAddDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>Bulk Add Meals</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Bulk Add Meals</DialogTitle>
+              </DialogHeader>
+              <BulkMealForm onSubmit={handleBulkAddMeal} />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4 mb-6">
         <Card>
